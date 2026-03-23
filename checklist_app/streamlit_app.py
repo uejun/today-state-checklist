@@ -79,9 +79,11 @@ def save_response(data):
 
     # シートが空ならヘッダ行を追加
     if not worksheet.get_all_values():
-        worksheet.append_row(HEADER)
+        worksheet.append_row(HEADER, value_input_option="USER_ENTERED",
+                             insert_data_option="INSERT_ROWS")
 
-    worksheet.append_row(data)
+    worksheet.append_row(data, value_input_option="USER_ENTERED",
+                         insert_data_option="INSERT_ROWS")
 
 
 # --- メインUI ---
