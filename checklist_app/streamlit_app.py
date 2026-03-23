@@ -77,13 +77,17 @@ def save_response(data):
     sh = client.open(SPREADSHEET_NAME)
     worksheet = sh.sheet1
 
-    # シートが空ならヘッダ行を追加
-    if not worksheet.get_all_values():
-        worksheet.append_row(HEADER, value_input_option="USER_ENTERED",
-                             insert_data_option="INSERT_ROWS")
+    existing = worksheet.get_all_values()
 
-    worksheet.append_row(data, value_input_option="USER_ENTERED",
-                         insert_data_option="INSERT_ROWS")
+    # シートが空ならヘッダ行を1行目に書き込む
+    if not existing:
+        worksheet.update(range_name="A1", values=[HEADER])
+        next_row = 2
+    else:
+        next_row = len(existing) + 1
+
+    # 次の空き行にデータを書き込む
+    worksheet.update(range_name=f"A{next_row}", values=[data])
 
 
 # --- メインUI ---
